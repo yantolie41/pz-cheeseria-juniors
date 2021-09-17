@@ -3,16 +3,19 @@ import { useQuery } from 'react-query';
 // Components
 import Item from './Cart/Item/Item';
 import Cart from './Cart/Cart';
+import ProductItem from './DialogItem/DialogItem';
 import Drawer from '@material-ui/core/Drawer';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RestoreIcon from '@material-ui/icons/Restore';
 import Badge from '@material-ui/core/Badge';
+import Dialog from '@material-ui/core/Dialog';
 // Styles
 import { Wrapper, StyledButton, StyledAppBar, HeaderTypography } from './App.styles';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 // Types
+//    For Shopping Cart   //
 export type CartItemType = {
   id: number;
   category: string;
@@ -28,21 +31,36 @@ const getCheeses = async (): Promise<CartItemType[]> =>
   await (await fetch(`api/cheeses`)).json();
 
 const App = () => {
+  //shopping cart
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
+  //dailog pop up window
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<CartItemType | undefined>();
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     'cheeses',
     getCheeses
   );
   console.log(data);
 
+//    Helper    //
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
 
+//    Dialog Item Functionality   //
+  const handleSelectItem = (item: CartItemType | undefined) => (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setSelectedItem(item);
+    setDialogOpen(true);
+  };
+
+//    Shopping Cart Functionality   //
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems(prev => {
       // 1. Is the item already added in the cart?
       const isItemInCart = prev.find(item => item.id === clickedItem.id);
+
+      setDialogOpen(false);
 
       if (isItemInCart) {
         return prev.map(item =>
@@ -120,12 +138,16 @@ const App = () => {
       </Drawer>
 
       <Grid container spacing={3}>
-        {data?.map(item => (
+        {data!.map(item => (
           <Grid item key={item.id} xs={12} sm={4}>
-            <Item item={item} handleAddToCart={handleAddToCart} />
+            <Item item={item} handleAddToCart={handleAddToCart} handleSelectItem={handleSelectItem}/>
           </Grid>
         ))}
       </Grid>
+
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+          {selectedItem && <ProductItem item ={selectedItem} handleAddToCart={handleAddToCart} dialogClose={() => setDialogOpen(false)}/>} 
+      </Dialog> 
     </Wrapper>
 
   );
