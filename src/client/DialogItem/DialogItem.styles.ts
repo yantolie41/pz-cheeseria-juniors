@@ -20,10 +20,12 @@ export const Wrapper = styled.div`
 
   .btn-close{
     background-color: red;
+    color: silver;
   }
 
   .btn-close:hover {
     background-color: white;
+    color: black;
   }
 
   img {
@@ -40,4 +42,5 @@ export const Wrapper = styled.div`
     padding: 1rem;
     height: 100%;
   }
+
 `;

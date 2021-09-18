@@ -14,11 +14,13 @@ const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
   <Wrapper>
     <div>
       <h3>{item.title}</h3>
-      <div className='information'>
+      <div>
         <p>Price: ${item.price}</p>
-        <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
+        <p><b>Total: ${(item.amount * item.price).toFixed(2)}</b></p>
+        
       </div>
       <div className='buttons'>
+      <p>Quantity:</p>
         <Button
           size='small'
           disableElevation
