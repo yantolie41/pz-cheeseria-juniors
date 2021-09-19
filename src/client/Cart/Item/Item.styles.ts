@@ -9,12 +9,16 @@ export const Wrapper = styled.div`
   border-radius: 20px;
   height: 100%;
 
-  button {
+  Button {
     border-radius: 0 0 20px 20px;
+    display: block;
+    position: relative;
+    padding: 15px 0;
   }
 
   img {
-    max-height: 250px;
+    width: 100%;
+    height: 200px;
     object-fit: cover;
     border-radius: 20px 20px 0 0;
   }
@@ -23,5 +27,6 @@ export const Wrapper = styled.div`
     font-family: Arial, Helvetica, sans-serif;
     padding: 1rem;
     height: 100%;
+    cursor: pointer;
   }
 `;
