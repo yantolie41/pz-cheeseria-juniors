@@ -5,6 +5,7 @@ import Item from './Cart/Item/Item';
 import Cart from './Cart/Cart';
 import ProductItem from './DialogItem/DialogItem';
 import Drawer from '@material-ui/core/Drawer';
+import RecentPurchase from './Cart/RecentPurchase/PurchaseItem/PurchaseItem';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
@@ -26,22 +27,39 @@ export type CartItemType = {
   amount: number;
 };
 
+//    For Purchase Item  //
+export type PurchaseItemType = {
+  id: number;
+  items: CartItemType[];
+}
 
+//  GET Request   //
 const getCheeses = async (): Promise<CartItemType[]> =>
   await (await fetch(`api/cheeses`)).json();
+
+const getPurchases = async (): Promise<PurchaseItemType[]> =>
+  await (await fetch(`api/purchaseHistory`)).json();
 
 const App = () => {
   //shopping cart
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
-  //dailog pop up window
+  //dialog pop up window
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CartItemType | undefined>();
+  //purchase
+  const [purchaseOpen, setPurchaseOpen] = useState(false);
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     'cheeses',
     getCheeses
   );
   console.log(data);
+
+  const {data: PurchaseData, isLoading: PurchaseIsLoading, error:PurchaseError, refetch: purchaseRefetch} = useQuery<PurchaseItemType[]>(
+    'purchases',
+    getPurchases
+  );
+  console.log(PurchaseData);
 
 //    Helper    //
   const getTotalItems = (items: CartItemType[]) =>
@@ -87,12 +105,43 @@ const App = () => {
     );
   };
 
+
+// Purchase Functionality   //
+  const sendPurchaseRequest = async () => {
+    await (await fetch('api/newPurchases', {
+     method: 'POST',
+     headers: {
+        'Content-Type': 'application/json'
+      },
+     body: JSON.stringify(cartItems)
+  }).then(response => {console.log(response)}))
+  
+
+    //clear the shopping cart
+    setCartItems([] as CartItemType[]);
+
+    //show the message
+    alert("Your item(s) has been successfully placed!");
+
+    //close cart after finished request
+    setCartOpen(false);
+};
+
+  const getPurchaseRecord = async() =>{
+    purchaseRefetch();
+    setPurchaseOpen(true)
+  }
+
+  if (PurchaseIsLoading) return <LinearProgress />;
+  if (error) return <div>Something went wrong...</div>
+
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Something went wrong ...</div>;
 
   return (
 
     <Wrapper>
+      
       <StyledAppBar position="static">
         <Toolbar>
           <Grid
@@ -101,7 +150,7 @@ const App = () => {
             justify="space-between"
             alignItems="center"
           >
-            <StyledButton>
+            <StyledButton onClick={() => getPurchaseRecord()}>
               <RestoreIcon />
               <Typography variant="subtitle2">
                 Recent Purchases
@@ -128,12 +177,18 @@ const App = () => {
           </Grid>
         </Toolbar>
       </StyledAppBar>
+      
+      <Drawer anchor='left' open={purchaseOpen} onClose={() => setPurchaseOpen(false)}>
+          <RecentPurchase purchases={PurchaseData || []} purchaseViewClosed={() => setPurchaseOpen(false)}/>
+      </Drawer>
 
       <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
         <Cart
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          sendPurchaseRequest={sendPurchaseRequest}
+          close={() => setCartOpen(false)}
         />
       </Drawer>
 
