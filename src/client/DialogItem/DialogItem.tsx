@@ -16,12 +16,12 @@ const Item: React.FC<Props> = ({ item, handleAddToCart, dialogClose }) => (
         <h2><b><u>{item.title}</u></b></h2>
         <img src={item.image} alt={item.title} width='95%'/>
         <div>
-            <h4>Category:</h4>
+            <h4>Category</h4>
             <p>{item.category}</p>
-            <h4>Description:</h4>
+            <h4>Description</h4>
             <p>{item.description}</p>
-            <h4>Price:</h4>
-            <p>$ {item.price}</p>
+            <h4>Price</h4>
+            <p>${item.price}</p>
         </div>
         <Button type="button"
         onClick={() => handleAddToCart(item)}>
