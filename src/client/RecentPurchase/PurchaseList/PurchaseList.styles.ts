@@ -15,6 +15,7 @@ export const Wrapper = styled.div`
     display: inline-block;
     font-size: 12px;
   }
+  
   h5 {
     postition: relative;
     float: left;
@@ -30,6 +31,7 @@ export const Wrapper = styled.div`
   span.price {
     float: right;
   }
+
   button {
     border-radius: 0 0 20px 20px;
     border: 1px solid lightblue;

@@ -5,7 +5,7 @@ import Item from './Cart/Item/Item';
 import Cart from './Cart/Cart';
 import ProductItem from './DialogItem/DialogItem';
 import Drawer from '@material-ui/core/Drawer';
-import RecentPurchase from './Cart/RecentPurchase/PurchaseItem/PurchaseItem';
+import RecentPurchase from './RecentPurchase/PurchaseItem/PurchaseItem';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
@@ -150,7 +150,7 @@ const App = () => {
             justify="space-between"
             alignItems="center"
           >
-            <StyledButton onClick={() => getPurchaseRecord()}>
+            <StyledButton data-cy="open-recent-purchase" onClick={() => getPurchaseRecord()}>
               <RestoreIcon />
               <Typography variant="subtitle2">
                 Recent Purchases
@@ -161,7 +161,7 @@ const App = () => {
               Welcome to Patient Zero's Cheeseria
             </HeaderTypography>
 
-            <StyledButton onClick={() => setCartOpen(true)}>
+            <StyledButton data-cy="open-cart" onClick={() => setCartOpen(true) }>
               <Badge
                 badgeContent={getTotalItems(cartItems)}
                 color='error'

@@ -13,14 +13,15 @@ type Props = {
 
 const Item: React.FC<Props> = ({ item, handleAddToCart, dialogClose }) => (
     <Wrapper>
-        <h2><b>{item.title}</b></h2>
+        <h2><b><u>{item.title}</u></b></h2>
         <img src={item.image} alt={item.title} width='95%'/>
         <div>
-            <h4>Category: {item.category}</h4>
-            <h4>ID: {item.id}</h4>
-            <h4>Description: </h4>
+            <h4>Category:</h4>
+            <p>{item.category}</p>
+            <h4>Description:</h4>
             <p>{item.description}</p>
-            <h4>Price: {item.price}</h4>
+            <h4>Price:</h4>
+            <p>$ {item.price}</p>
         </div>
         <Button type="button"
         onClick={() => handleAddToCart(item)}>
