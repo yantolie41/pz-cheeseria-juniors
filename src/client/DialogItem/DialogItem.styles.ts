@@ -18,6 +18,15 @@ export const Wrapper = styled.div`
     font-weight: bold;
   }
 
+  h2{
+    text-align: center;
+    text-decoration: underline;
+  }
+
+  h4{
+    text-decoration: underline;
+  }
+
   .btn-close{
     background-color: red;
     color: silver;

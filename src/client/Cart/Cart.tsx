@@ -23,8 +23,8 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, sendPurch
       
       {cartItems.map(item => (
         <CartItem
-          key={item.id}
-          item={item}
+          key={item.id} 
+          item={item} 
           addToCart={addToCart}
           removeFromCart={removeFromCart}
         />
@@ -38,7 +38,7 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, sendPurch
       {cartItems.length > 0 &&
       <div>
         <h2>Total: ${calculateTotal(cartItems).toFixed(2)}</h2>
-      <Button type="button" className="btn-purchase" onClick={sendPurchaseRequest}>Purchase</Button>
+      <Button type="button" className="btn-purchase" onClick={sendPurchaseRequest} data-cy="purchase-request">Purchase</Button>
       <Button type="button" className="btn-close" onClick={close}>Close</Button> 
       </div>
       }

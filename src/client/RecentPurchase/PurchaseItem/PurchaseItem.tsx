@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import Purchaselayout from '../PurchaseList/PurchaseList';
-import { PurchaseItemType } from '../../../App';
+import { PurchaseItemType } from '../../App';
 import { Wrapper } from './PurchaseItem.styles';
 
 
@@ -18,7 +18,7 @@ const RecentPurchase: React.FC<Props> = ({purchases, purchaseViewClosed}) => {
             {purchases.map(item => (
                 <Purchaselayout 
                     key={item.id}
-                    items={item.items}   
+                    items={item.items}
                 />
             ))} 
             <Button type="button" className="btn-close" onClick={purchaseViewClosed}>Close</Button>  

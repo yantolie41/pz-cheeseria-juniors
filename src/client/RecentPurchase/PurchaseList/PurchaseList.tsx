@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartItemType } from '../../../App';
+import { CartItemType } from '../../App';
 import { Wrapper } from './PurchaseList.styles';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 }
 
 const CartItem: React.FC<Props> = ({items}) => {
-  // calculate the total price per each order;
+  // calculate the total price per each order for the list
   const totalprice = (items : CartItemType[]) => 
   items.reduce((ack: number, item) => ack + item.amount * item.price, 0);
     return (
